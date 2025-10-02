@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- Desenvolvido por Ricardo Oliani e Giovanne Aquino -->
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TarefasApp"
+             x:Class="TarefasApp.MainPage"
+             Title="Lista de Tarefas">
+    <ContentPage.Resources>
+        <local:PrioridadeToColorConverter x:Key="prioridadeColorConverter" />
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="*, Auto">
+        <CollectionView x:Name="tarefasCollectionView"
+                        Grid.Row="0"
+                        SelectionMode="Single"
+                        SelectionChanged="OnTarefaSelected">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:Tarefa">
+                    <Frame Padding="15" Margin="10,5" CornerRadius="10" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="Auto, *">
+
+                            <Frame Grid.Column="0"
+                               HeightRequest="15"
+                               WidthRequest="15"
+                               CornerRadius="10"
+                               VerticalOptions="Center"
+                               IsClippedToBounds="True"
+                               Padding="0"
+                               Margin="0,0,10,0"
+                               BackgroundColor="{Binding Prioridade, Converter={StaticResource prioridadeColorConverter}}" />
+
+                            <VerticalStackLayout Grid.Column="1">
+                                <Label Text="{Binding Titulo}" FontSize="Medium" FontAttributes="Bold" />
+                                <Label Text="{Binding Descricao}" FontSize="Small" TextColor="Gray" />
+                            </VerticalStackLayout>
+
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.EmptyView>
+                <ContentView>
+                    <Frame Padding="15" Margin="10,5" CornerRadius="10" BorderColor="LightGray">
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Frame Grid.Column="0"
+                               HeightRequest="15"
+                               WidthRequest="15"
+                               CornerRadius="10"
+                               VerticalOptions="Center"
+                               IsClippedToBounds="True"
+                               Padding="0"
+                               Margin="0,0,10,0" />
+                            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                <Label Text="Nenhuma tarefa encontrada." FontSize="Medium" FontAttributes="Bold" />
+                                <Label Text="Clique em 'Adicionar' para criar uma nova." FontSize="Small" TextColor="Gray" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Frame>
+                </ContentView>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <Button Text="Adicionar Nova Tarefa"
+                Grid.Row="1"
+                Margin="20"
+                Clicked="OnAdicionarClicked" />
+    </Grid>
+
+</ContentPage>
